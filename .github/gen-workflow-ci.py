@@ -54,6 +54,7 @@ def main():
                  for step in steps if isinstance(step, dict) and 'label' in step and 'command' in step
                  and not step['label'].startswith(':docker: Build ') and '-cpu-' in step['label']
                  for plugin in step['plugins'] if 'docker-compose#v3.5.0' in plugin]
+    cpu_tests = [cpu_tests[0]]
 
     # we need to distinguish the two oneccl variants of some tests
     cpu_tests = [(label + (' [ONECCL OFI]' if 'mpirun_command_ofi' in command else (' [ONECCL MPI]' if 'mpirun_command_mpi' in command else '')),
@@ -753,6 +754,8 @@ def main():
         cpu_release_images = [image for image in release_images if '-cpu-' in image]
         gpu_release_images = [image for image in release_images if '-gpu-' in image or '-mixed-' in image]
         allhead_images = [image for image in images if all(head in image for head in heads)]
+        release_images = [release_images[0]]
+        allhead_images = [allhead_images[0]]
         workflow = workflow_header() + jobs(
             validate_workflow_job(),
             # changing these names require changes in the workflow-conclusion step in ci-fork.yaml
