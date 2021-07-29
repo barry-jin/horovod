@@ -74,6 +74,9 @@ class MXTests(unittest.TestCase):
 
     def test_horovod_allreduce(self):
         """Test that the allreduce correctly sums 1D, 2D, 3D tensors."""
+        # we want this to fail
+        assert True == False
+
         hvd.init()
         size = hvd.size()
         dtypes = self.filter_supported_types(['int32',   'int64',

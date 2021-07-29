@@ -470,7 +470,7 @@ def main():
                 f'\n'
                 f'      - name: Download Buildkite Artifacts\n'
                 f'        id: download\n'
-                f'        uses: docker://ghcr.io/enricomi/download-buildkite-artifact-action:v1\n'
+                f'        uses: EnricoMi/download-buildkite-artifact-action@branch-add-run-attempt-to-artifact\n'
                 f'        with:\n'
                 f'          github_token: ${{{{ github.token }}}}\n'
                 f'          buildkite_token: ${{{{ secrets.BUILDKITE_TOKEN }}}}\n'
@@ -751,7 +751,7 @@ def main():
             build_and_test_images(id='build-and-test', name='Build and Test', needs=['init-workflow'], images=release_images, parallel_images='-cpu-', tests_per_image=tests_per_image, tests=tests),
             build_and_test_images(id='build-and-test-heads', name='Build and Test heads', needs=['build-and-test'], images=allhead_images, parallel_images='', tests_per_image=tests_per_image, tests=tests),
             build_and_test_macos(id='build-and-test-macos', name='Build and Test macOS', needs=['build-and-test']),
-            trigger_buildkite_job(id='buildkite', needs=['build-and-test']),
+            trigger_buildkite_job(id='buildkite', needs=[]),
             publish_unit_test_results(id='publish-test-results', needs=['build-and-test', 'build-and-test-heads', 'build-and-test-macos', 'buildkite']),
             publish_docker_images(needs=['build-and-test', 'buildkite'], images=['horovod', 'horovod-cpu', 'horovod-ray']),
             sync_files(needs=['init-workflow'])

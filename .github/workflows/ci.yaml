@@ -3433,7 +3433,7 @@ jobs:
             ${{ steps.build-and-test-3.outputs.artifacts-path }}
   buildkite:
     name: "Build and Test GPU (on Builtkite)"
-    needs: [init-workflow, build-and-test]
+    needs: [init-workflow]
     runs-on: ubuntu-latest
     if: >
       github.repository == 'horovod/horovod' &&
@@ -3454,7 +3454,7 @@ jobs:
 
       - name: Download Buildkite Artifacts
         id: download
-        uses: docker://ghcr.io/enricomi/download-buildkite-artifact-action:v1
+        uses: EnricoMi/download-buildkite-artifact-action@branch-add-run-attempt-to-artifact
         with:
           github_token: ${{ github.token }}
           buildkite_token: ${{ secrets.BUILDKITE_TOKEN }}
