@@ -537,7 +537,15 @@ def main():
                 f'        uses: EnricoMi/publish-unit-test-result-action@v1\n'
                 f'        if: always()\n'
                 f'        with:\n'
-                f'          files: ${{ steps.last-runs.output.files }}\n')
+                f'          title: Unit Test Results\n'
+                f'          files: ${{ steps.last-runs.output.files }}\n'
+                f'\n'
+                f'      - name: Publish Unit Test Results (:snowflake:)\n'
+                f'        uses: EnricoMi/publish-unit-test-result-action@v1\n'
+                f'        if: always()\n'
+                f'        with:\n'
+                f'          title: Unit Test Results (with flaky tests)\n'
+                f'          files: "artifacts/Unit Test Results */**/*.xml"\n')
 
     def publish_docker_images(needs: List[str], images: List[str]) -> str:
         if 'init-workflow' not in needs:

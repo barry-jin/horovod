@@ -3520,7 +3520,15 @@ jobs:
         uses: EnricoMi/publish-unit-test-result-action@v1
         if: always()
         with:
+          title: Unit Test Results
           files: ${ steps.last-runs.output.files }
+
+      - name: Publish Unit Test Results (:snowflake:)
+        uses: EnricoMi/publish-unit-test-result-action@v1
+        if: always()
+        with:
+          title: Unit Test Results (with flaky tests)
+          files: "artifacts/Unit Test Results */**/*.xml"
 
   docker-config:
     name: Configure docker build
